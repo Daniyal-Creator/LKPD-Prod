@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistik Bilangan</title>
+</head>
+<body>
+    <h1>Program Statistik Bilangan</h1>
+    <h3>Menghitung Bilangan Terbesar, Terkecil, dan Rata-rata</h3>
+    
+    <p>Masukkan 20 bilangan untuk dihitung statistiknya</p>
+    
+    <p>Bilangan ke-<span id="counter">1</span> dari 20</p>
+    <input type="number" id="inputBilangan" placeholder="Masukkan bilangan">
+    <button onclick="tambahBilangan()">Tambah Bilangan</button>
+    
+    <br><br>
+    
+    <p><b>Array Bilangan:</b> <span id="tampilArray">[]</span></p>
+    
+    <br>
+    
+    <button onclick="hitungStatistik()">Hitung Statistik</button>
+    <button onclick="reset()">Reset</button>
+    
+    <hr>
+    
+    <div id="hasil"></div>
+
+    <script>
+        // Array untuk menyimpan bilangan
+        let arrayBilangan = [];
+        let index = 0;
+
+        function tambahBilangan() {
+            // Cek apakah sudah 20 bilangan
+            if (index >= 20) {
+                alert('Sudah mencapai 20 bilangan! Silakan hitung statistik.');
+                return;
+            }
+
+            const input = document.getElementById('inputBilangan');
+            const nilai = parseFloat(input.value);
+
+            // Validasi input
+            if (isNaN(nilai)) {
+                alert('Masukkan bilangan yang valid!');
+                return;
+            }
+
+            // Tambahkan ke array
+            arrayBilangan[index] = nilai;
+            index++;
+
+            // buat  counter
+            document.getElementById('counter').textContent = index + 1;
+            
+            // nampilkeun array
+            document.getElementById('tampilArray').textContent = '[' + arrayBilangan.join(', ') + ']';
+            
+            // Kosongkan input
+            input.value = '';
+
+            // Jika sudah 20, disable input
+            if (index >= 20) {
+                input.disabled = true;
+                alert('20 bilangan sudah diinput! Klik "Hitung Statistik"');
+            }
+        }
+
+        function hitungStatistik() {
+            // Cek array
+            if (arrayBilangan.length === 0) {
+                alert('Array masih kosong! Masukkan bilangan terlebih dahulu.');
+                return;
+            }
+
+            // Inisialisasi variabel
+            let terbesar = arrayBilangan[0];
+            let terkecil = arrayBilangan[0];
+            let total = 0;
+            let i = 0;
+
+            // MENGGUNAKAN WHILE LOOP untuk mencari terbesar, terkecil, dan total
+            while (i < arrayBilangan.length) {
+                // Cek bilangan terbesar
+                if (arrayBilangan[i] > terbesar) {
+                    terbesar = arrayBilangan[i];
+                }
+                
+                // Cek bilangan terkecil
+                if (arrayBilangan[i] < terkecil) {
+                    terkecil = arrayBilangan[i];
+                }
+                
+                // Tambahkan ke total untuk menghitung rata-rata
+                total = total + arrayBilangan[i];
+                
+                i++;
+            }
+
+            let rataRata = total / arrayBilangan.length;
+
+            // hasil
+            let hasilHTML = '<h2>Hasil Perhitungan (Menggunakan While Loop)</h2>';
+            hasilHTML += '<p><b>Jumlah bilangan:</b> ' + arrayBilangan.length + '</p>';
+            hasilHTML += '<p><b>Array Bilangan:</b> [' + arrayBilangan.join(', ') + ']</p>';
+            hasilHTML += '<hr>';
+            hasilHTML += '<p><b>Bilangan Terbesar:</b> ' + terbesar + '</p>';
+            hasilHTML += '<p><b>Bilangan Terkecil:</b> ' + terkecil + '</p>';
+            hasilHTML += '<p><b>Total:</b> ' + total + '</p>';
+            hasilHTML += '<p><b>Rata-rata:</b> ' + rataRata.toFixed(2) + '</p>';
+
+            document.getElementById('hasil').innerHTML = hasilHTML;
+        }
+
+        function reset() {
+            // reset
+            arrayBilangan = [];
+            index = 0;
+            
+            // Reset counter
+            document.getElementById('counter').textContent = '1';
+            document.getElementById('inputBilangan').value = '';
+            document.getElementById('inputBilangan').disabled = false;
+            document.getElementById('tampilArray').textContent = '[]';
+            document.getElementById('hasil').innerHTML = '';
+        }
+    </script>
+</body>
+</html>
